@@ -1,24 +1,17 @@
-# type-store
+## Instructions
 
-## Project setup
-```
-npm install
-```
+1.First clone this repo to use it localy with this command in your terminal:
 
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
+### `git clone <projectName>`
 
-### Compiles and minifies for production
-```
-npm run build
-```
+2.Enter into the project with :
 
-### Lints and fixes files
-```
-npm run lint
-```
+### `cd <projectName>`
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+3.Install all the dependencies with:
+
+### `npm install`
+
+4.Run the project with:
+
+### `npm run serve`
