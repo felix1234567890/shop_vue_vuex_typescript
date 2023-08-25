@@ -2,26 +2,17 @@
   <div id="app">
     <main>
       <Navbar />
-      <CartContainer log-value="doSomething" />
+      <CartContainer :cartItems="cartItems" />
     </main>
-    <!-- <router-view/> -->
   </div>
 </template>
-<script lang="ts">
-import { Component, Vue } from "vue-property-decorator";
-import Navbar from "@/components/Navbar.vue";
-import CartContainer from "@/components/CartContainer.vue";
-import cartItems from "./cart-items";
-import { ICartItem } from "./interfaces";
-@Component({
-  components: {
-    Navbar,
-    CartContainer
-  }
-})
-export default class App extends Vue {
-  private cartItems: ICartItem[] = cartItems;
-}
+
+<script setup lang="ts">
+import Navbar from '@/components/Navbar.vue';
+import CartContainer from '@/components/CartContainer.vue';
+import { useShopStore } from './stores/shop';
+import { storeToRefs } from 'pinia';
+
+const { cartItems } = storeToRefs(useShopStore())
+
 </script>
-<style>
-</style>

@@ -1,9 +1,9 @@
 <template>
   <div class="cart-item">
-    <img :src="cartItem.img" alt="{title}" />
+    <img :src="cartItem.img" :alt="cartItem.title" />
     <div>
-      <h4>{{cartItem.title}}</h4>
-      <h4 class="item-price">${{cartItem.price}}</h4>
+      <h4>{{ cartItem.title }}</h4>
+      <h4 class="item-price">${{ cartItem.price }}</h4>
 
       <button class="remove-btn" @click="removeCartItem(cartItem.id)">remove</button>
     </div>
@@ -14,11 +14,12 @@
         </svg>
       </button>
 
-      <p class="amount">{{cartItem.amount}}</p>
+      <p class="amount">{{ cartItem.amount }}</p>
 
       <button
         class="amount-btn"
-        @click="cartItem.amount === 1 ? removeCartItem(cartItem.id) : decreaseAmount(cartItem.id, cartItem.amount)"
+        @click="decreaseAmount(cartItem.id, cartItem.amount)"
+        :disabled="cartItem.amount === 1"
       >
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
           <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
@@ -28,35 +29,24 @@
   </div>
 </template>
 
-<script lang="ts">
-import { Component, Vue, Prop } from "vue-property-decorator";
-import { ICartItem } from "../interfaces";
-import { getModule } from "vuex-module-decorators";
-import Shop from "../store/shop";
-@Component
-export default class CartItem extends Vue {
-  @Prop({
-    type: Object
-  })
-  readonly cartItem!: ICartItem;
-  private shop: Shop;
+<script setup lang="ts">
+import { useShopStore } from '@/stores/shop'
+import { ICartItem } from '../interfaces'
+const { cartItem } = defineProps<{ cartItem: ICartItem }>()
 
-  constructor() {
-    super();
-    this.shop = getModule(Shop, this.$store);
-  }
+const { removeItem, incrAmount, decrAmount } = useShopStore()
 
-  public removeCartItem(id): void {
-    this.shop.rmvItem(id);
-  }
-  increaseAmount(id): void {
-    this.shop.incrAmount(id);
-  }
-  decreaseAmount(id, amount): void {
-    this.shop.decrAmount({ id, amount });
+function removeCartItem(id: number): void {
+  removeItem(id)
+}
+
+function increaseAmount(id: number): void {
+  incrAmount(id)
+}
+
+function decreaseAmount(id: number, amount: number): void {
+  if (amount > 1) {
+    decrAmount({ id })
   }
 }
 </script>
-
-<style>
-</style>

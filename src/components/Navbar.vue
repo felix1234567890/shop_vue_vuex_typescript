@@ -16,15 +16,9 @@
   </nav>
 </template>
 
-<script lang="ts">
-import { Component, Vue } from "vue-property-decorator";
-import { namespace } from "vuex-class";
-const shop = namespace("Shop");
-@Component
-export default class Navbar extends Vue {
-  @shop.State
-  public amount!: number;
-}
+<script setup lang="ts">
+import { useShopStore } from '@/stores/shop';
+import { storeToRefs } from 'pinia';
+const { amount } = storeToRefs(useShopStore())
 </script>
 
-<style></style>
